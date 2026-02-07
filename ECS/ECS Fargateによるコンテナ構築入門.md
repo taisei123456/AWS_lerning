@@ -95,3 +95,6 @@ graph LR
 
 - 現在はIPアドレス直接指定なので、余裕があればRoute53（ただしLabでは制限あり）やALBの仕組みを学びたい。
 - 今回の構成をTerraformやCloudFormationでコード化(IaC)し、構築・削除を自動化したい。
+
+
+![1770488124643](image/ECSFargateによるコンテナ構築入門/1770488124643.png)
