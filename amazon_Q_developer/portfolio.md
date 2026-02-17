@@ -12,18 +12,20 @@
 * **構成図:**
     ```mermaid
     graph TD
-    User[User (Browser)] -->|HTTP:80| IGW[Internet Gateway]
-    IGW --> VPC
-    subgraph VPC
-        subgraph Public Subnet
-            EC2[EC2 Instance]
-            Apache[Apache Web Server]
-            Q[Amazon Q CLI]
+        User["User (Browser)"] -->|HTTP:80| IGW[Internet Gateway]
+        IGW --> VPC[VPC]
+        
+        subgraph VPC
+            subgraph PublicSubnet["Public Subnet"]
+                EC2[EC2 Instance]
+                Apache[Apache Web Server]
+                Q[Amazon Q CLI]
+            end
         end
-    end
-    EC2 --> Apache
-    EC2 --> Q
-    Apache --> HTML[/var/www/html/index.html]
+        
+        EC2 --> Apache
+        EC2 --> Q
+        Apache --> HTML["/var/www/html/index.html"]
     ```
 
 ## 3. Learner Lab 環境の前提条件
