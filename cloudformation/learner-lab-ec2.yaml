@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'AWS Academy Learner Lab: Basic EC2 and Security Group'
+
+Resources:
+  # 1. セキュリティグループの作成 (SSHアクセスのみ許可)
+  LabSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH access for Learner Lab
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0 # ※学習用のため全開放していますが、実務では自分のIPに制限します
+
+  # 2. EC2インスタンスの作成
+  LabEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      # 【鉄則2】予算枯渇を防ぐため、必ず低コストな無料枠レベルを指定
+      InstanceType: t2.micro 
+      # 【鉄則1】us-east-1 (N. Virginia) リージョンの最新Amazon Linux 2023を指定
+      ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64}}'
+      SecurityGroupIds:
+        - !GetAtt LabSecurityGroup.GroupId
+      Tags:
+        - Key: Name
+          Value: LearnerLab-CFn-Handson
+
+Outputs:
+  InstanceId:
+    Description: The Instance ID of the EC2 instance
+    Value: !Ref LabEC2Instance
